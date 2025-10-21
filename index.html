@@ -1,141 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CECTESTEXAM 2028</title>
-<style>
-body {
-  font-family: Arial;
-  background: #f0f2f5;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-#container {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  width: 90%;
-  max-width: 700px;
-}
-button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-button:hover {
-  background: #0056b3;
-}
-.timer {
-  font-weight: bold;
-  color: red;
-  float: right;
-}
-h2 { margin-top: 0; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CECTESTEXAM2028</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 700px;
+      text-align: left;
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .timer {
+      font-weight: bold;
+      color: red;
+      text-align: right;
+    }
+  </style>
 </head>
 <body>
-<div id="container">
-  <h2>ONLINE EXAM</h2>
-  <p>Click start to begin. The test will go fullscreen and auto-submit if you exit or time runs out.</p>
-  <button id="startBtn">Start Exam</button>
-  
-  <div id="exam" style="display:none;">
-    <div class="timer">Time: <span id="time">20</span>s</div>
-    <h3 id="question"></h3>
-    <div id="options"></div>
-    <button id="nextBtn">Next</button>
+  <div class="container" id="exam-container">
+    <h2>UNIT TEST EXAM</h2>
+    <div class="timer" id="timer">Time left: 20s</div>
+    <div id="question-container"></div>
+    <button id="next-btn" onclick="nextQuestion()">Next</button>
   </div>
-  
-  <p id="result"></p>
-</div>
 
-<script>
-const questions = [
-  // UNIT TEST 1
-  {q:"What is the best indicator that you have successfully assembled a computer?",o:["You are able to close the system case cover.","All wires are connected and the lights blink when turned on.","There is a beeping sound as you turn it on.","The PC is able to boot up to the BIOS."],a:3},
-  {q:"These are the most common ports used by monitors to produce best video qualities EXCEPT FOR",o:["HDMI","DVI","RPS","VGA"],a:2},
-  {q:"These are the most necessary peripherals to run the computer easily.",o:["Speakers, Printer","Keyboard, Mouse, Monitor","Joystick, Headphones, Speakers","Scanner, Mouse, Webcam"],a:1},
-  {q:"When installing these, push down properly until you hear a click when the tabs lock.",o:["CPU Fan","CPU","RAM","PSU"],a:2},
-  {q:"Where should you clip the anti-static wrist wrap?",o:["Unpainted part of the case","Standoffs of the case","Any screw","I/O Bezel Plate"],a:0},
-  // UNIT TEST 2
-  {q:"It is a layer of software used to manage computer resources.",o:["Program Applications","Device Drivers","Operating System","BIOS"],a:2},
-  {q:"These are small software programs that help the OS use hardware devices.",o:["Drivers","BIOS","Windows","Operating Systems"],a:0},
-  {q:"These are several ways in installing device drivers EXCEPT FOR:",o:["Driver Update through Device Manager","None","Manufacturer's DVD Installer","Downloading drivers online","Driverpack Solution"],a:1},
-  {q:"When installing an OS, boot files are placed in the:",o:["USB","Flash Drive","RAM","Hard Drive"],a:3},
-  {q:"The following are operating systems EXCEPT FOR:",o:["Reaver","MAC OS","Linux","Windows"],a:0},
-  {q:"Which of the following is a FREE operating system?",o:["MAC OS","Linux","Reaver","Windows"],a:1}
-];
+  <script>
+    const questions = [
+      {q:"What is the best indicator that you have successfully assembled a computer?",o:["You are able to close the system case cover.","All wires are connected and the lights blink when turned on.","There is a beeping sound as you turn it on.","The PC is able to boot up to the BIOS."],a:3},
+      {q:"These are the most common ports used by monitors to produce best video qualities EXCEPT FOR",o:["HDMI","DVI","RPS","VGA"],a:2},
+      {q:"These are the most necessary peripherals you should connect to your system unit to be able to run the computer easily.",o:["Speakers, Printer","Keyboard, Mouse, Monitor","Joystick, Headphones, Speakers","Scanner, Mouse, Webcam"],a:1},
+      {q:"When these are being installed in their slots, you should push these down properly to align it to the slots until you hear a click when the tabs lock.",o:["CPU Fan","Central Processing Unit","Random Access Memory","Power Supply Unit"],a:2},
+      {q:"When wearing the anti-static wrist wrap, where should the other end (aside from the wrist) should you clip the wrap onto?",o:["Unpainted part of the case","Standoffs of the case","Any screw","I/O Bezel Plate"],a:0},
+      {q:"After removing the Central Processing Unit, add thermal paste on the pins before putting it back to the CPU socket.",o:["True","False"],a:1},
+      {q:"The following are wirings from the power supply connected to the motherboard EXCEPT FOR:",o:["2-pin power connector","24-pin ATX power connector","SATA power connector"],a:0},
+      {q:"After disassembling a computer, what do you usually do before re-assembling the components again?",o:["Note the specifications","Use a well sanitized moist cloth and wipe the components neatly","Let them dry through the air conditioner or at room temperature","Put them away in a clean and secure box"],a:3},
+      {q:"Ideally, what is the LAST component that you take out in the disassembly process?",o:["RAM","Power Supply Connectors","CPU","CPU Fan"],a:2},
+      {q:"Before assembling the computer components, you should clean the components with a brush and add an amount of thermal paste to the heat sink and the processor.",o:["True","False"],a:0},
+      {q:"It is a layer of software used to manage computer resources. It provides the interface, configures and manage hardware to connect components to applications.",o:["Program Applications","Device Drivers","Operating System","BIOS"],a:2},
+      {q:"These are small software programs that help the operating system use the hardware devices. This is constantly updated and made sure that the correct versions are installed.",o:["Drivers","BIOS","Windows","Operating Systems"],a:0},
+      {q:"These are several ways in installing device drivers EXCEPT FOR:",o:["Driver Update through Device Manager","None","Manufacturer's DVD Installer","Downloading drivers online","Driverpack Solution"],a:1},
+      {q:"Booting is a startup sequence that launches the operating system of a computer when it is turned off. When installing an operating system to a computer, these files are placed in a boot drive.",o:["USB","Flash Drive","Random Access Memory","Hard Drive"],a:3},
+      {q:"The following are operating systems EXCEPT FOR",o:["Reaver","MAC OS","Linux","Windows"],a:0},
+      {q:"Which of the following is a FREE operating system?",o:["MAC OS","Linux","Reaver","Windows"],a:1},
+      {q:"It is responsible in making sure that all chips, hard drives, ports, CPU, and other components function together properly. This boots the computer and loads the drivers.",o:["Device Driver","Operating System","Software","BIOS"],a:3},
+      {q:"Third party applications like Rufus make use of bootable devices in the process of installing an operating system. Which device do we usually use to install an operating system?",o:["Hard Drive","Cloud Drive","Random Access Memory","Flash Drive"],a:3},
+      {q:"This operating system makes use of an interface with a Start Menu, Taskbar, System Tray among other user interface components.",o:["Reaver","Linux","Windows","MAC OS"],a:2},
+      {q:"This is a program used by the operating system to organize data or application files. The type of this program determines how data and programs will be accessed.",o:[".EXE organizer","Installation Procedure","Winzip","File System"],a:3}
+    ];
 
-let i=0, score=0, time=20, timer;
-const q=document.getElementById('question');
-const opt=document.getElementById('options');
-const res=document.getElementById('result');
-const exam=document.getElementById('exam');
-const timeEl=document.getElementById('time');
+    let current = 0;
+    let score = 0;
+    let timer = 20;
+    let countdown;
 
-function showQuestion(){
-  if(i>=questions.length){endExam();return;}
-  q.textContent=questions[i].q;
-  opt.innerHTML='';
-  questions[i].o.forEach((c,idx)=>{
-    const btn=document.createElement('button');
-    btn.textContent=c;
-    btn.onclick=()=>{if(idx===questions[i].a)score++;next();};
-    opt.appendChild(btn);
-    opt.appendChild(document.createElement('br'));
-  });
-}
+    function startFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      }
+    }
 
-function next(){i++;resetTimer();showQuestion();}
+    function detectTabSwitch() {
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) endExam("You switched tabs. Exam ended automatically.");
+      });
+      document.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement) endExam("You exited fullscreen. Exam ended automatically.");
+      });
+    }
 
-function startExam(){
-  document.getElementById('startBtn').style.display='none';
-  exam.style.display='block';
-  goFullscreen();
-  showQuestion();
-  resetTimer();
-}
+    function startExam() {
+      startFullscreen();
+      detectTabSwitch();
+      showQuestion();
+      startTimer();
+    }
 
-function resetTimer(){
-  clearInterval(timer);
-  time=20;
-  timeEl.textContent=time;
-  timer=setInterval(()=>{
-    time--;timeEl.textContent=time;
-    if(time<=0)next();
-  },1000);
-}
+    function showQuestion() {
+      const q = questions[current];
+      const container = document.getElementById("question-container");
+      container.innerHTML = `<div class='question'>${current + 1}. ${q.q}</div>`;
+      q.o.forEach((option, index) => {
+        container.innerHTML += `<label><input type='radio' name='answer' value='${index}'> ${option}</label><br>`;
+      });
+    }
 
-function endExam(){
-  clearInterval(timer);
-  exitFullscreen();
-  exam.style.display='none';
-  res.textContent=`Exam finished! Your score is ${score}/${questions.length}`;
-}
+    function nextQuestion() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if (selected && parseInt(selected.value) === questions[current].a) score++;
+      current++;
+      if (current < questions.length) {
+        timer = 20;
+        showQuestion();
+      } else {
+        endExam("Exam finished!");
+      }
+    }
 
-function goFullscreen(){
-  if(document.documentElement.requestFullscreen)
-    document.documentElement.requestFullscreen();
-}
-function exitFullscreen(){
-  if(document.exitFullscreen)
-    document.exitFullscreen();
-}
-document.addEventListener('fullscreenchange',()=>{
-  if(!document.fullscreenElement)endExam();
-});
+    function startTimer() {
+      countdown = setInterval(() => {
+        document.getElementById("timer").innerText = `Time left: ${timer}s`;
+        timer--;
+        if (timer < 0) nextQuestion();
+      }, 1000);
+    }
 
-document.getElementById('startBtn').onclick=startExam;
-document.getElementById('nextBtn').onclick=next;
-</script>
+    function endExam(message) {
+      clearInterval(countdown);
+      document.getElementById("exam-container").innerHTML = `<h2>${message}</h2><p>Your score: ${score}/${questions.length}</p>`;
+      document.exitFullscreen?.();
+    }
+
+    window.onload = startExam;
+  </script>
 </body>
 </html>
